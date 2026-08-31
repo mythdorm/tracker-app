@@ -24,8 +24,8 @@ async function seedUsers() {
         users.map(async (user) => {
             const hashedPassword = await bcrypt.hash(user.password, 10);
             return sql`
-                INSERT INTO users (name, email, password)
-                VALUES (${user.name}, ${user.email}, ${hashedPassword})
+                INSERT INTO users (id, name, email, password)
+                VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
                 ON CONFLICT (id) DO NOTHING
             `;
         }),
@@ -34,19 +34,29 @@ async function seedUsers() {
     return insertedUsers;
 }
 
-async function seedSubTasks() {
-    await sql``;
-
-    return null;
-}
-
 async function seedTasks() {
     await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await sql`
+        CREATE TABLE IF NOT EXISTS tasks (
+            id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+            user_id UUID NOT NULL,
+            title VARCHAR(255) NOT NULL,
+            status VARCHAR(50) NOT NULL,
+            date DATE
+        )
+    `;
 
+    const insertedTasks = await Promise.all(
+        tasks.map(async (task) => {
+            return sql`
+                INSERT INTO tasks (user_id, title, status, date)
+                VALUES (${task.user_id}, ${task.title}, ${task.status}, ${task.date})
+                ON CONFLICT (id) DO NOTHING
+            `;
+        })
+    );
 
-    const result = await seedSubTasks();
-
-    return null;
+    return insertedTasks;
 }
 
 export async function GET() {
