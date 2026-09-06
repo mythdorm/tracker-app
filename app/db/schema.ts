@@ -13,6 +13,7 @@ export const users = pgTable('users', {
 export const tasks = pgTable("tasks", {
     id: uuid("id").primaryKey().defaultRandom(),
     title: text("title").notNull(),
+    description: text("description"),
     status: statusEnum("status").default("pending"),
     createdAt: timestamp("created_at").defaultNow(),
     userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),

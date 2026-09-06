@@ -15,6 +15,13 @@
       "when": 1788489464171,
       "tag": "0001_strong_nekra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788581399797,
+      "tag": "0002_melted_skaar",
+      "breakpoints": true
     }
   ]
 }

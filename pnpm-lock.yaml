@@ -44,6 +44,9 @@ importers:
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
+      reactjs:
+        specifier: ^1.0.0
+        version: 1.0.0
       zod:
         specifier: ^4.5.4
         version: 4.5.4
@@ -2465,6 +2468,9 @@ packages:
   react@19.2.8:
     resolution: {integrity: sha512-PWaYA1L/q9u2u7xYQi+Y3L3Yfnie7XyLeaJICV1MGD6LprsBxcAqGjYyr0eY3p+QdsA+x/Irkt4Qif8D63+Sbw==}
     engines: {node: '>=0.10.0'}
+
+  reactjs@1.0.0:
+    resolution: {integrity: sha512-qA9hlxvt0NJueuZ+WnFnngajVWCqtGI4/y3mAxN7U5yoiZqaGie/QIvjqI8gUOYU06bh7Qpc872CSxhZiId5Gw==}
 
   reflect.getprototypeof@1.0.10:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
@@ -4945,6 +4951,8 @@ snapshots:
   react-is@16.13.1: {}
 
   react@19.2.8: {}
+
+  reactjs@1.0.0: {}
 
   reflect.getprototypeof@1.0.10:
     dependencies:

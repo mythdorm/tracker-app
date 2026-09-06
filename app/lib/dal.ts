@@ -25,7 +25,7 @@ export const getUser = cache(async () => {
         return null;
     }
 
-    const id: string = session.userId
+    const id= session.userId
 
     try {
         const data = await db.query.users.findMany({
@@ -40,7 +40,7 @@ export const getUser = cache(async () => {
         const user = data[0];
         return user;
     } catch (error) {
-        console.log("Failed to fetch user" + error);
+        // Fails to find user
         return null;
     }
 })
