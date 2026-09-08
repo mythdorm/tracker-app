@@ -1,17 +1,23 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Development
+
+Currently, the app has the functionality to create an account, log into that account, create tasks linked to a user, view tasks based on the logged-in account, and delete those tasks.
+
+What needs to be done:
+- Create a way to edit the tasks
+- Make it possible to set tasks to "completed"
+- Implement a profile page (Edit details, dedicated logout)
+- Update the landing page with details on the project
+- Create subtasks, linked to specific tasks
+- Create prerequisite functionality (Locking the completion of one task behind another)
+
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

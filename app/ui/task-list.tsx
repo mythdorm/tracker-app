@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { getTasks, Task, deleteTask } from "@/app/actions/tasks";
 import TaskPopup from "./task-popup";
+import TaskElement from "./task-element";
 
 export default function TaskList () {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -32,13 +33,15 @@ export default function TaskList () {
 
     if (loading) return <p>Loading...</p>
     return(
-        <div>
+        <div className="w-95/100 pl-2">
             <TaskPopup created={handleCreate}/>
 
             <ul>
                 {tasks.map((t, i) => (
                     <li key={i} id={t.id}> 
-                        <button onClick={() => handleDelete(t.id)}>{t.title}</button>
+                        {/* <button onClick={() => handleDelete(t.id)}>{t.title}</button> */}
+                        
+                        <TaskElement title={t.title} description={t.description} status={"pending"} toDelete={() => handleDelete(t.id)} thisId={t.id} />
                     </li>
                 ))}
             </ul>

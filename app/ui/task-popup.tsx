@@ -18,7 +18,7 @@ export default function TaskPopup ({ created }: TaskPopupProps) {
 
     return (
         <div>
-            <button onClick={() => {setIsPopupOpen(true)}}>Open Popup</button>
+            <button onClick={() => {setIsPopupOpen(true)}} className="bg-blue-400 rounded m-2 w-9/100 hover:bg-blue-500">Create Task</button>
             <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} >
                 <h1 className="text-xl font-semibold mb-2 text-gray-700">New Task</h1>
 
