@@ -1,7 +1,7 @@
 "use server";
 
 import bcrypt from "bcrypt";
-import { SignUpFormSchema, LogInFormSchema, FormState } from "@/app/lib/definitions";
+import { SignUpFormSchema, LogInFormSchema, UpdateProfileFormSchema, FormState } from "@/app/lib/definitions";
 import { db } from "@/app/db";
 import { users } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
@@ -89,7 +89,21 @@ export async function logout () {
     redirect("/login");
 }
 
-export async function updateUser (name: string, email: string, password: string | null) {
+export async function updateUser (state: FormState, formData: FormData) {
+    const validatedFields = UpdateProfileFormSchema.safeParse({
+        name: formData.get("name"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+    })
+    
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    const { name, email, password } = validatedFields.data;
+
     const user = await db.query.users.findFirst({
         where: eq(users.id, (await verifySession()).userId)
     })
@@ -102,7 +116,7 @@ export async function updateUser (name: string, email: string, password: string 
     
     let data = null;
 
-    if (password === null) {
+    if (password === null || password === "") {
         // Update the user without changing the password
         data = await db.update(users).set({
             name: name,
@@ -123,4 +137,16 @@ export async function updateUser (name: string, email: string, password: string 
     await createSession(user.id);
 
     redirect("/dashboard");
+}
+
+export async function getUser () {
+    const user = await db.query.users.findFirst({
+        where: eq(users.id, (await verifySession()).userId),
+        columns: {
+            name: true,
+            email: true,
+        }
+    })
+
+    return user;
 }
