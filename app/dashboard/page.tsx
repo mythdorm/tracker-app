@@ -14,7 +14,7 @@ export default async function Page () {
             <div className="w-full">
                 <TopNav />
                 <div className="py-10">
-                    <button onClick={logout}>Logout</button>
+                    <button onClick={logout} className="hover:underline">Logout</button>
                 </div>
                 
                 <TaskList />
