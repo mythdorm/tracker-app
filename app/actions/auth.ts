@@ -1,12 +1,13 @@
 "use server";
 
 import bcrypt from "bcrypt";
-import { SignUpFormSchema, LogInFormSchema, FormState } from "@/app/lib/definitions";
+import { SignUpFormSchema, LogInFormSchema, UpdateProfileFormSchema, FormState } from "@/app/lib/definitions";
 import { db } from "@/app/db";
 import { users } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 import { createSession, deleteSession } from "@/app/lib/session";
 import { redirect } from "next/navigation";
+import { verifySession } from "../lib/dal";
 
 export async function signup(state: FormState, formData: FormData) {
     const validatedFields = SignUpFormSchema.safeParse({
@@ -86,4 +87,66 @@ export async function login (state: FormState, formData: FormData) {
 export async function logout () {
     await deleteSession();
     redirect("/login");
+}
+
+export async function updateUser (state: FormState, formData: FormData) {
+    const validatedFields = UpdateProfileFormSchema.safeParse({
+        name: formData.get("name"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+    })
+    
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    const { name, email, password } = validatedFields.data;
+
+    const user = await db.query.users.findFirst({
+        where: eq(users.id, (await verifySession()).userId)
+    })
+
+    if (!user) {
+        return {
+            message: "Unable to verify session",
+        }
+    }
+    
+    let data = null;
+
+    if (password === null || password === "") {
+        // Update the user without changing the password
+        data = await db.update(users).set({
+            name: name,
+            email: email,
+        }).where(eq(users.id, user.id))
+    } else {
+        const hashPass = await bcrypt.hash(password, 10);
+        data = await db.update(users).set({
+            name: name,
+            email: email,
+            passwordHash: hashPass,
+        }).where(eq(users.id, user.id))
+    }
+
+    if (!data) { return { message: "Failed to update user infotmation" } }
+
+    await deleteSession();
+    await createSession(user.id);
+
+    redirect("/dashboard");
+}
+
+export async function getUser () {
+    const user = await db.query.users.findFirst({
+        where: eq(users.id, (await verifySession()).userId),
+        columns: {
+            name: true,
+            email: true,
+        }
+    })
+
+    return user;
 }

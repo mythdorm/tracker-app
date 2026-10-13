@@ -32,7 +32,7 @@ export function LoginForm () {
             {/* <button disabled={pending} type="submit" className="px-5">Log In</button> */}
             <div className="w-5/10 flex">
                 <div className="flex-initial h-full px-1 mt-2 bg-blue-500 hover:bg-blue-400 rounded border-gray-300 border-1">
-                    <button className="" disabled={pending} type="submit">Sign Up</button>
+                    <button className="" disabled={pending} type="submit">Login</button>
                 </div>
                 <div className="flex-initial h-full px-1 my-2 ml-2 bg-gray-600 hover:bg-gray-500 rounded border-gray-300 border-1">
                     <Link href="/" className=" cursor-default">Back</Link>

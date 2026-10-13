@@ -21,7 +21,9 @@ export default function TopNav() {
                 </Link> */}
             </div>
             <div className="flex-none items-center justify-center pr-5">
-                <UserIcon className="w-8 h-8" />
+                <Link href="/dashboard/profile">
+                    <UserIcon className="w-8 h-8" />
+                </Link>
             </div>
         </div>
     )
